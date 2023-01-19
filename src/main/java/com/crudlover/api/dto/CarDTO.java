@@ -1,5 +1,23 @@
 package com.crudlover.api.dto;
 
-public record CarDTO(String modelo, String fabricante, String dataFabricacao, double valor, int anoModelo) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+
+public record CarDTO(
+
+    @NotBlank
+    String modelo, 
+
+    @NotBlank
+    String fabricante, 
+
+    @Past
+    String dataFabricacao,
+
+    @NotBlank
+    double valor, 
+
+    @NotBlank
+    int anoModelo) {
     
 }

@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.crudlover.api.dto.CarDTO;
 import com.crudlover.api.model.Car;
 import com.crudlover.api.repository.CarRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -23,10 +27,22 @@ public class CarController {
     @GetMapping
     public List<Car> listAll() {
         return repository.findAll();
-    }
-
+    }    
+    
     @PostMapping
     public void postCar(@RequestBody CarDTO req) {
         repository.save(new Car(req));
+    }
+
+    @PutMapping("/{id}")
+    public void update(@PathVariable Long id, @RequestBody @Valid CarDTO req) {
+        repository.findById(id).map(car -> {
+            car.setModelo(req.modelo());
+            car.setFabricante(req.fabricante());
+            car.setAnoModelo(req.anoModelo());
+            car.setDataFabricacao(req.dataFabricacao());
+            car.setValor(req.valor());
+            return repository.save(car);
+        });
     }
 }
