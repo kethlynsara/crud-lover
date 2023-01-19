@@ -1,5 +1,7 @@
 package com.crudlover.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +21,8 @@ public class CarController {
     private CarRepository repository;
     
     @GetMapping
-    public String listAll() {
-        return "";
+    public List<Car> listAll() {
+        return repository.findAll();
     }
 
     @PostMapping
